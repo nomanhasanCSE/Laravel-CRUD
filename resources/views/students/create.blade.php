@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=H1, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Laravel CRUD</title>
 </head>
@@ -68,12 +68,10 @@
                             <label for="student_id">Student ID:</label>
                             <input type="text" id="student_id" name="student_id" placeholder=" Please write your student ID here"class="form-control" required>
                         </div>
-
                         <div class="form-group fs-4">
                             <label for="address">Address:</label>
                             <input type="text" id="address" name="address" placeholder=" Please write your address here" class="form-control" required>
                         </div>
-
                         <div class="form-group fs-4">
                             <label for="class">Class:</label>
                             <select id="class" name="class" class="form-control" required>
@@ -100,5 +98,29 @@
         </div>
     </div>
   </div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const classSelect = document.getElementById('class');
+        const sectionSelect = document.getElementById('section');
+
+        classSelect.addEventListener('change', function() {
+            const classId = this.value;
+            fetch(`/sections/${classId}`)
+                .then(response => response.json())
+                .then(data => {
+                    sectionSelect.innerHTML = '';
+                    data.forEach(section => {
+                        const option = document.createElement('option');
+                        option.value = section.id;
+                        option.textContent = section.section_name;
+                        sectionSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching sections:', error));
+        });
+    });
+</script>
 </body>
 </html>
