@@ -37,7 +37,26 @@ class StudentController extends Controller
 }
 
 public function edit(Student $student){
+    return view('students.edit', ['student' => $student]);
+}
+public function update(Student $student, Request $request){
+  
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+        'student_id' => 'required|unique:students,student_id,'.$student->id, 
+        'address' => 'required|string',
+        'class' => 'required|integer|between:1,10',
+        'section' => 'required|string|size:1',
+    ]);
 
+    $student->update($validatedData);
+    // Redirect back to the index page with a success message
+    return redirect()->route('student.index')->with('success', 'Student updated successfully.');
+}
+
+public function remove(Student $student){
+    $student->delete();
+    return redirect()->route('student.index')->with('success', 'Student deleted successfully.');
 }
 }
 
