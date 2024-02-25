@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=H1, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Laravel CRUD</title>
 </head>
 <body>
 
@@ -52,51 +52,7 @@
    <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center fs-2 fw-bolder bg-primary text-white">Student Form</div>
-                <div class="card-body">
-            
-                    <form method="post" action= "{{route('student.store')}}">
-                        @csrf
-                        @method("post")
-                        <div class="form-group fs-4">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" placeholder=" Please write your name here"class="form-control" required>
-                        </div>
-
-                        <div class="form-group fs-4">
-                            <label for="student_id">Student ID:</label>
-                            <input type="text" id="student_id" name="student_id" placeholder=" Please write your student ID here"class="form-control" required>
-                        </div>
-
-                        <div class="form-group fs-4">
-                            <label for="address">Address:</label>
-                            <input type="text" id="address" name="address" placeholder=" Please write your address here" class="form-control" required>
-                        </div>
-
-                        <div class="form-group fs-4">
-                            <label for="class">Class:</label>
-                            <select id="class" name="class" class="form-control" required>
-                                @for ($i = 1; $i <= 10; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-
-                        <div class="form-group fs-4">
-                            <label for="section">Section:</label>
-                            <select id="section" name="section" class="form-control" required>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                        
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary mt-3 fs-4 form-control">Submit</button>
-                    </form>
-                </div>
-            </div>
+             
         </div>
     </div>
   </div>
