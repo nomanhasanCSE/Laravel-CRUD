@@ -52,10 +52,10 @@
    <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-        <div class="card">
+            <div class="card">
                 <div class="card-header text-center fs-2 fw-bolder bg-primary text-white">Student Form</div>
                 <div class="card-body">
-
+            
                     <form method="post" action= "{{route('student.store')}}">
                         @csrf
                         @method("post")
@@ -89,14 +89,14 @@
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
-
+                        
                             </select>
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-3 fs-4 form-control">Submit</button>
                     </form>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
   </div>
