@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name ="_token" content = "{{csrf_token()}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Laravel CRUD</title>
 </head>
@@ -73,15 +74,36 @@
                             <input type="text" id="address" name="address" placeholder=" Please write your address here" class="form-control" required>
                         </div>
                         <div class="form-group fs-4">
+                            <label for="class" class="form-label">Class:</label>
+                            <select class="form-select" id="class" name="class_id" required>
+                                <option value="">Select Class</option>
+                                @foreach($classes as $class)
+                                <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group fs-4">
+                            <label for="section" class="form-label">Section:</label>
+                            <select class="form-select" id="section" name="section_id" required>
+                                <option value="">Select Section</option>
+                            </select>
+                        </div>
+                        <!-- <div class="form-group fs-4">
+                            <label for="section" class="form-label">Sectio:</label>
+                            <select class="form-select" id="section" name="section" required>
+                            <option value="">Select Section</option>
+                            </select>
+                        </div> -->
+                        <!-- <div class="form-group fs-4">
                             <label for="class">Class:</label>
                             <select id="class" name="class" class="form-control" required>
                                 @for ($i = 1; $i <= 10; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="form-group fs-4">
+                        <!-- <div class="form-group fs-4">
                             <label for="section">Section:</label>
                             <select id="section" name="section" class="form-control" required>
                                 <option value="A">A</option>
@@ -89,7 +111,7 @@
                                 <option value="C">C</option>
                         
                             </select>
-                        </div>
+                        </div> -->
 
                         <button type="submit" class="btn btn-primary mt-3 fs-4 form-control">Submit</button>
                     </form>
@@ -98,29 +120,98 @@
         </div>
     </div>
   </div>
-
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const classSelect = document.getElementById('class');
-        const sectionSelect = document.getElementById('section');
-
-        classSelect.addEventListener('change', function() {
-            const classId = this.value;
-            fetch(`/sections/${classId}`)
-                .then(response => response.json())
-                .then(data => {
-                    sectionSelect.innerHTML = '';
-                    data.forEach(section => {
-                        const option = document.createElement('option');
-                        option.value = section.id;
-                        option.textContent = section.section_name;
-                        sectionSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching sections:', error));
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#class').on('change', function() {
+            var classId = $(this).val();
+            if (classId) {
+                $.ajax({
+                    url: '{{ url("/student/fetchSections") }}/' + classId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response)
+                        if (response.status == 1 && response.sections.length > 0) {
+                            $('#section').empty().append('<option value="">Select Section</option>');
+                            $.each(response.sections, function(key, value) {
+                                $("#section").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                            });
+                        }
+                    }
+                });
+            } else {
+                $('#section').empty().append('<option value="">Select Section</option>');
+            }
         });
     });
 </script>
+
+
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+
+    $(document).ready(function() {
+        $('#class').on('change', function() {
+            var class_id = $(this).val();
+            if (class_id) {
+                $.ajax({
+                    url: '{{ url("/student/fetch-sections/") }}' + class_id,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response['sections'].length > 0) {
+                            $('#section').empty().append('<option value="">Select Section</option>');
+                            $.each(response['sections'], function(key, value) {
+                                $("#section").append("<option value='" + value['id'] + "'>" + value['name'] + "</option>");
+                            });
+                        }
+                    }
+                });
+            } 
+        });
+    });
+</script> -->
+
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $ajax.Setup({
+        header: {
+            'X-CSRF-TOKEN':$('meta[name ="-token"]')
+            .attr(.content')
+        }
+    }):
+    $(document).ready(function() {
+        $('#class').on('change', function() {
+            var class_id = $(this).val();
+            if (class_id) {
+                $.ajax({
+                    url: '{{url("/stdent/fetch-sections/")}}'+ class_id,
+                    type ='post',
+                    datatype ='json'
+                    success: function(response) {
+                        if (response ['sections'].length>0)
+                        {   $('#section').find('option:not(:first)').remove();
+                            $.each(response['sections'], function(key,value){
+                            $("#section").append("<option id = '"+value['id']+"'}+"'>"+value['name']+"</option>") 
+                            })
+                        }
+
+                        // $('#section').empty().append('<option value="">Select Section</option>');
+                        // $.each(response, function(index, item) {
+                        //     $('#section').append('<option value="' + item.id + '">' + item.name + '</option>');
+                        });
+                    }
+                });
+            } 
+</script> -->
 </body>
 </html>

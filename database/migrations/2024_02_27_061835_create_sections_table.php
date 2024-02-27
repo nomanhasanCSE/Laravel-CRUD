@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('class_id');
+            $table->string('name');
             $table->timestamps();
+        
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 
