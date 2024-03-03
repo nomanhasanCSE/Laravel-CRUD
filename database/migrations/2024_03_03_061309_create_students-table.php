@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('student_id');
             $table->string('address');
-            $table->unsignedInteger('class');
-            $table->char('section', 1);
-
+            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('section_id');
+            $table->foreign('class_id')->references('id')->on('class_names');
+            $table->foreign('section_id')->references('id')->on('sections');
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        //
     }
 };

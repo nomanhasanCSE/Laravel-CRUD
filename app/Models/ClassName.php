@@ -15,3 +15,4 @@ class ClassName extends Model
         return $this->hasMany(Section::class);
     }
 }
+

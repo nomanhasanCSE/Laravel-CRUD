@@ -45,6 +45,9 @@
     </div>
 @endif
 
+
+
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">List of Students</h2>
     <table class="table table-striped">
@@ -54,7 +57,7 @@
                 <th>Student ID</th>
                 <th>Address</th>
                 <th>Class</th>
-                <th>Section</th>
+                <th>Section ID</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -65,8 +68,8 @@
                     <td>{{ $student->name }}</td>
                     <td>{{ $student->student_id }}</td>
                     <td>{{ $student->address }}</td>
-                    <td>{{ $student->class }}</td>
-                    <td>{{ $student->section }}</td>
+                    <td>{{ $student->class_id }}</td>
+                    <td>{{ $student->section_id}}</td>
                     <td> <a href="{{route('student.edit',['student' => $student])}}">Edit</a>  </td>
                     <td> <form method="post" action="{{route('student.remove',['student' =>$student])}}">
                       @csrf

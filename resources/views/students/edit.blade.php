@@ -47,7 +47,7 @@
         </ul>
     </div>
 @endif
-   <div class="container mt-5">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -70,8 +70,25 @@
                             <input type="text" id="address" name="address" placeholder=" Please write your address here" class="form-control" value="{{$student->address}}" required>
                         </div>
                         <div class="form-group fs-4">
+                            <label for="class" class="form-label">Class:</label>
+                            <select class="form-select" id="class-dropdown" name="class_id" required>
+                                <option value="">Select Class</option>
+                                @foreach($classes as $class)
+                                <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                @endforeach
+                            </select> 
+                        </div>
+
+
+                        <div class="form-group fs-4">
+                            <label for="section" class="form-label">Section:</label>
+                            <select class="form-select" id="section-dropdown" name="section_id" required>
+                                <option value="">Select Section</option>
+                            </select>
+                        </div>
+                        <!-- <div class="form-group fs-4">
                             <label for="class">Class:</label>
-                            <select id="class" name="class" class="form-control" value="{{$student->class}}" required>
+                            <select id="class" name="class_id" class="form-control" value="{{$student->class}}" required>
                                 @for ($i = 1; $i <= 10; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
@@ -79,19 +96,47 @@
                         </div>
                         <div class="form-group fs-4">
                             <label for="section">Section:</label>
-                            <select id="section" name="section" class="form-control" value="{{$student->section}}" required>
+                            <select id="section" name="section_id" class="form-control" value="{{$student->section}}" required>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
                         
                             </select>
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary mt-3 fs-4 form-control">Update</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+  </div> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+$('#class-dropdown').on('change', function () {
+                var idClass = this.value;
+                $("#section-dropdown").html('');
+                $.ajax({
+                    url: "{{url('student/fetchSections')}}",
+                    type: "post",
+                    data: {
+                        class_id: idClass,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#section-dropdown').html('<option value="">Select Section</option>');
+                        $.each(result.sections, function (key, value) {
+                            $("#section-dropdown").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+                        
+                    }
+                });
+            });
+
+</script>
+
+
 </body>
 </html>

@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 Route::get('/student',[StudentController::class,'index'])->name('student.index');
 Route::get('/student/create',[StudentController::class,'create'])->name('student.create');
-Route::get('/student/fetchSections/{id}',[StudentController::class,'fetchSections']);
+Route::post('/student/fetchSections',[StudentController::class,'fetchSections']);
 Route::post('/student',[StudentController::class,'store'])->name('student.store');
 Route::get('/student/{student}/edit',[StudentController::class,'edit'])->name('student.edit');
 Route::put('/student/{student}/update',[StudentController::class,'update'])->name('student.update');
 Route::delete('/student/{student}/remove',[StudentController::class,'remove'])->name('student.remove');
+Route::get('/student/search', [StudentControllr::class,'search'])->name('student.search');
